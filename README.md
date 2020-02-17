@@ -1,5 +1,16 @@
 # Ratings App
 
+- [Ratings App](#ratings-app)
+  - [Stack](#stack)
+  - [Overview](#overview)
+  - [Motivation](#motivation)
+  - [Downside & Limitation](#downside--limitation)
+    - [Aggregation Explanations](#aggregation-explanations)
+  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [Infrastructure](#infrastructure)
+  - [Run](#run)
+
 ## Stack
 
 - Python script to fetch (generate!) data
