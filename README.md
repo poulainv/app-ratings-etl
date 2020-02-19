@@ -13,7 +13,7 @@
 
 ## Stack
 
-- Python script to fetch (generate!) data
+- Python script to fetch reviews
 - Define schema with Glue
 - Use Kinesis S3 to store data into Parquet file
 - Athena to compute aggregations
