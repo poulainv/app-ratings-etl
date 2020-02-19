@@ -20,14 +20,9 @@
 
 ## Overview
 
-- `fetch_ratings` python script generates (but should have fetched) ratings about Blinkist app. Dates could be set to only fetch a specific time window.
-
-⚠️ Neither Appbot API or AppTweak seems to provide any free of charge API to programmatically fetch ratings. I was blocked on Appbot "API is available as an add-on to the Large & Enterprise plans.", and Apptweak ask for my credit card as well. Export feature is also premium. So, I've randomly generated data instead for this exercice purpose. ⚠️ 
-
-Ratings are sent into Kinesis Firehose.
+- `fetch_ratings` python script fetches iOS and Android reviews about Blinkist app. Ratings are sent into Kinesis Firehose.
 
 - A `Rating` table is defined in `Blinkist` Glue database. This schema is used to convert JSON data from Firehose to Parquet file located at `s3://blinkist/ratings/`. This data format is column oriented and can be easily queried by Presto / Hive engine, Athena or transfered to any Redshift instance
-
 
 - `aggregate_ratings` python script sends Athena query to show how we can aggregate and store result there `s3://blinkist/aggregation/`
 
@@ -49,7 +44,7 @@ This ELT solution is far from any acceptable production-ready solution
 - Athena & Firehose not part of AWS free tier default rating fetch is set to 100
 - Scheduling should be properly set-up (Airflow)
 - Python job should be isolated (lambda, docker)
-- Error handling & Error recovery (Airflow & Dead letter queue)
+- Better error handling & error recovery (Airflow & Dead letter queue)
 - Incremental VS Full replace should be decided
 - Output storage should be used instead of CSV (ES, RDS)
 
@@ -114,6 +109,7 @@ ORDER BY a.published_date;
 - AWS environment variables
 - AWS CLI
 - Python3   
+- AppTweak api key set as env variable APPTWEAK_API_KEY
 
 ### Infrastructure
 
@@ -130,6 +126,7 @@ Replace `QUERYID` by Athena queryId printed by `aggregate_ratings.py`
 
 ```bash 
 cd scripts
+pip install -r requirements.txt
 python fetch_ratings.py
 python aggregate_ratings.py
 aws s3 cp s3://blinkist/aggregation/QUERYID.csv result.csv
